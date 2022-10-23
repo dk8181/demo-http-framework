@@ -20,4 +20,20 @@ final class DetectLangTEst extends TestCase
 
         self::assertEquals('en', $lang);
     }
+
+    public function testQueryParams(): void
+    {
+        $request = ['queryParams' => ['lang' => 'de']];
+        $lang = detectLang($request, 'en');
+
+        self::assertEquals('de', $lang);
+    }
+
+    public function testBodyParams(): void
+    {
+        $request = ['parsedBody' => ['lang' => 'fr']];
+        $lang = detectLang($request, 'en');
+
+        self::assertEquals('fr', $lang);
+    }
 }
