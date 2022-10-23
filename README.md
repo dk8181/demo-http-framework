@@ -1,3 +1,3 @@
 # Demo PHP HTTP Framework
 
-Source code for https://deworker.pro/edu/series/http-framework
+Source code for learning PHP http framework
