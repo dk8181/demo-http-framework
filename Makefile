@@ -22,6 +22,9 @@ composer-install:
 composer-update:
 	docker-compose run --rm php-cli composer update
 
+dump-autoload:
+	docker-compose run --rm php-cli composer dump-autoload
+
 lint:
 	docker-compose run --rm php-cli composer php-cs-fixer fix -- --dry-run --diff
 
