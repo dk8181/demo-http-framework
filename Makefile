@@ -1,4 +1,5 @@
 init: docker-down-clear docker-pull docker-build-pull docker-up app-init
+up: docker-up
 down: docker-down-clear
 check: lint analyze test
 

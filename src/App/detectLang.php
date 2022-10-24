@@ -8,20 +8,20 @@ use Framework\Http\Message\ServerRequest;
 
 function detectLang(ServerRequest $request, string $default): string
 {
-    if (!empty($request->queryParams['lang']) && is_string($request->queryParams['lang'])) {
-        return $request->queryParams['lang'];
+    if (!empty($request->getQueryParams()['lang']) && is_string($request->getQueryParams()['lang'])) {
+        return $request->getQueryParams()['lang'];
     }
 
-    if (!empty($request->parsedBody['lang']) && is_string($request->parsedBody['lang'])) {
-        return $request->parsedBody['lang'];
+    if (!empty($request->getParsedBody()['lang']) && is_string($request->getParsedBody()['lang'])) {
+        return $request->getParsedBody()['lang'];
     }
 
-    if (!empty($request->cookieParams['lang'])) {
-        return $request->cookieParams['lang'];
+    if (!empty($request->getCookieParams()['lang'])) {
+        return $request->getCookieParams()['lang'];
     }
 
-    if (!empty($request->headers['Accept-Language'])) {
-        return substr((string)$request->headers['Accept-Language'], 0, 2);
+    if (!empty($request->getHeaders()['Accept-Language'])) {
+        return substr((string)$request->getHeaders()['Accept-Language'], 0, 2);
     }
 
     return $default;
