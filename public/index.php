@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use Framework\Http\Message\ServerRequest;
-
 use function App\detectLang;
 use function Framework\Http\createServerRequestFromGlobals;
 
