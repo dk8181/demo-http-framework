@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Framework\Http;
 
 use Framework\Http\Message\ServerRequest;
+use Framework\Http\Message\Stream;
 use Framework\Http\Message\Uri;
 
 /**
@@ -13,13 +14,14 @@ use Framework\Http\Message\Uri;
  * @param array<string, string>|null $cookie
  * @param array<string, array|string>|null $query
  * @param array<string, array|string> $body
+ * @param resource|null $input
  */
 function createServerRequestFromGlobals(
     ?array $server = null,
     ?array $query = null,
     ?array $cookie = null,
     ?array $body = null,
-    ?string $input = null
+    mixed $input = null
 ): ServerRequest {
     $server ??= $_SERVER;
 
@@ -44,7 +46,7 @@ function createServerRequestFromGlobals(
         queryParams: $query ?? $_GET,
         headers: $headers,
         cookieParams: $cookie ?? $_COOKIE,
-        body: $input ?? file_get_contents('php://input'),
+        body: new Stream($input ?: fopen('php://input', 'r')),
         parsedBody: $body ?? ($_POST ?: null)
     );
 }

@@ -12,7 +12,7 @@ require __DIR__ . './../vendor/autoload.php';
 
 $request = createServerRequestFromGlobals();
 
-$name = $request->queryParams['name'] ?? 'Guest';
+$name = $request->getQueryParams()['name'] ?? 'Guest';
 
 if (!is_string($name)) {
     http_response_code(400);

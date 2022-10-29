@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Test\App;
 
-use function App\detectLang;
-use Framework\Http\Message\Uri;
-
-use PHPUnit\Framework\TestCase;
 use Framework\Http\Message\ServerRequest;
+use Framework\Http\Message\Stream;
+
+use Framework\Http\Message\Uri;
+use PHPUnit\Framework\TestCase;
+
+use function App\detectLang;
 
 /**
  * @internal description
@@ -17,6 +19,9 @@ final class DetectLangTest extends TestCase
 {
     public function testDefault(): void
     {
+        $input = fopen('php://memory', '+r');
+        fwrite($input, 'Body');
+
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
             uri: new Uri('http://app.test/home?name=John'),
@@ -24,7 +29,7 @@ final class DetectLangTest extends TestCase
             queryParams: ['name' => 'John'],
             headers: ['X-Header' => 'Value'],
             cookieParams: ['Cookie' => 'Val'],
-            body: 'body',
+            body: new Stream($input ?: fopen('php://input', 'r')),
             parsedBody: ['title' => 'Title']
         );
 
@@ -35,6 +40,9 @@ final class DetectLangTest extends TestCase
 
     public function testQueryParam(): void
     {
+        $input = fopen('php://memory', '+r');
+        fwrite($input, 'Body');
+
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
             uri: new Uri('http://app.test/home'),
@@ -42,7 +50,7 @@ final class DetectLangTest extends TestCase
             queryParams: ['lang' => 'de'],
             headers: ['Accept-Language' => 'ru-ru,ru;q=0.8,en;q=0.4'],
             cookieParams:['lang' => 'pt'],
-            body: 'body',
+            body: new Stream($input ?: fopen('php://input', 'r')),
             parsedBody: ['lang' => 'fr']
         );
 
@@ -53,6 +61,9 @@ final class DetectLangTest extends TestCase
 
     public function testBodyParam(): void
     {
+        $input = fopen('php://memory', '+r');
+        fwrite($input, 'Body');
+
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
             uri: new Uri('http://app.test/home'),
@@ -60,7 +71,7 @@ final class DetectLangTest extends TestCase
             queryParams: [],
             headers: ['Accept-Language' => 'ru-ru,ru;q=0.8,en;q=0.4'],
             cookieParams:['lang' => 'pt'],
-            body: 'body',
+            body: new Stream($input ?: fopen('php://input', 'r')),
             parsedBody: ['lang' => 'fr']
         );
 
@@ -71,6 +82,9 @@ final class DetectLangTest extends TestCase
 
     public function testCookie(): void
     {
+        $input = fopen('php://memory', '+r');
+        fwrite($input, 'Body');
+
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
             uri: new Uri('http://app.test/home'),
@@ -78,7 +92,7 @@ final class DetectLangTest extends TestCase
             queryParams: [],
             headers: ['Accept-Language' => 'ru-ru,ru;q=0.8,en;q=0.4'],
             cookieParams:['lang' => 'pt'],
-            body: 'body',
+            body: new Stream($input ?: fopen('php://input', 'r')),
             parsedBody: []
         );
 
@@ -89,6 +103,9 @@ final class DetectLangTest extends TestCase
 
     public function testHeader(): void
     {
+        $input = fopen('php://memory', '+r');
+        fwrite($input, 'Body');
+
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
             uri: new Uri('http://app.test/home'),
@@ -96,7 +113,7 @@ final class DetectLangTest extends TestCase
             queryParams: [],
             headers: ['Accept-Language' => 'ru-ru,ru;q=0.8,en;q=0.4'],
             cookieParams:[],
-            body: 'body',
+            body: new Stream($input ?: fopen('php://input', 'r')),
             parsedBody: []
         );
 

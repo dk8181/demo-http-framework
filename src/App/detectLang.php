@@ -6,6 +6,10 @@ namespace App;
 
 use Framework\Http\Message\ServerRequest;
 
+/**
+ * @psalm-suppress MixedInferredReturnType
+ * @psalm-suppress MixedReturnStatement
+*/
 function detectLang(ServerRequest $request, string $default): string
 {
     if (!empty($request->getQueryParams()['lang']) && is_string($request->getQueryParams()['lang'])) {

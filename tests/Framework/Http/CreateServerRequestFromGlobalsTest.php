@@ -27,10 +27,12 @@ final class CreateServerRequestFromGlobalsTest extends TestCase
 
         $query = ['a' => '8'];
         $cookie = ['name' => 'John'];
-        $body = ['age' => '42'];
-        $input = 'Body';
+        $parsedBody = ['age' => '42'];
 
-        $request = createServerRequestFromGlobals($server, $query, $cookie, $body, $input);
+        $input = fopen('php://memory', 'r+');
+        fwrite($input, 'Body');
+
+        $request = createServerRequestFromGlobals($server, $query, $cookie, $parsedBody, $input);
 
         self::assertEquals($server, $request->getServerParams());
         self::assertEquals('http://localhost/home?a=8', (string)$request->getUri());
@@ -46,7 +48,7 @@ final class CreateServerRequestFromGlobalsTest extends TestCase
         ], $request->getHeaders());
 
         self::assertEquals($cookie, $request->getCookieParams());
-        self::assertEquals($input, $request->getBody());
-        self::assertEquals($body, $request->getParsedBody());
+        self::assertEquals('Body', (string)$request->getBody());
+        self::assertEquals($parsedBody, $request->getParsedBody());
     }
 }
