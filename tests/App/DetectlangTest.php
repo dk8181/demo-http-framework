@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Test\App;
 
-use Framework\Http\Message\ServerRequest;
-use PHPUnit\Framework\TestCase;
-
 use function App\detectLang;
+use Framework\Http\Message\Uri;
+
+use PHPUnit\Framework\TestCase;
+use Framework\Http\Message\ServerRequest;
 
 /**
  * @internal description
@@ -18,7 +19,7 @@ final class DetectLangTest extends TestCase
     {
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
-            uri: '/home',
+            uri: new Uri('http://app.test/home?name=John'),
             method: 'GET',
             queryParams: ['name' => 'John'],
             headers: ['X-Header' => 'Value'],
@@ -36,7 +37,7 @@ final class DetectLangTest extends TestCase
     {
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
-            uri: '/home',
+            uri: new Uri('http://app.test/home'),
             method: 'GET',
             queryParams: ['lang' => 'de'],
             headers: ['Accept-Language' => 'ru-ru,ru;q=0.8,en;q=0.4'],
@@ -54,7 +55,7 @@ final class DetectLangTest extends TestCase
     {
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
-            uri: '/home',
+            uri: new Uri('http://app.test/home'),
             method: 'POST',
             queryParams: [],
             headers: ['Accept-Language' => 'ru-ru,ru;q=0.8,en;q=0.4'],
@@ -72,7 +73,7 @@ final class DetectLangTest extends TestCase
     {
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
-            uri: '/home',
+            uri: new Uri('http://app.test/home'),
             method: 'GET',
             queryParams: [],
             headers: ['Accept-Language' => 'ru-ru,ru;q=0.8,en;q=0.4'],
@@ -90,7 +91,7 @@ final class DetectLangTest extends TestCase
     {
         $request = new ServerRequest(
             serverParams: ['HOST' => 'app.test'],
-            uri: '/home',
+            uri: new Uri('http://app.test/home'),
             method: 'GET',
             queryParams: [],
             headers: ['Accept-Language' => 'ru-ru,ru;q=0.8,en;q=0.4'],

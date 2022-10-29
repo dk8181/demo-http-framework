@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Test\Framework\Http\Message;
 
-use PHPUnit\Framework\TestCase;
 use Framework\Http\Message\ServerRequest;
+use Framework\Http\Message\Uri;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
@@ -16,7 +17,7 @@ final class ServerRequestTest extends TestCase
     {
         $request = new ServerRequest(
             serverParams: $serverParams = ['HOST' => 'app.test'],
-            uri: $uri = '/home',
+            uri: $uri = new Uri('/home'),
             method: $method = 'GET',
             queryParams: $queryParams = ['name' => 'John'],
             headers: $headers = ['X-Header' => 'Value'],
