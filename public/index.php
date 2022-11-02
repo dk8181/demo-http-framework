@@ -12,24 +12,50 @@ http_response_code(500);
 /** @psalm-suppress MissingFile */
 require __DIR__ . './../vendor/autoload.php';
 
+### Page
+
+/**
+ * @return array{statusCode: int, body: string, headers: array<string, string>}
+ */
 function home(ServerRequest $request)
 {
     $name = $request->getQueryParams()['name'] ?? 'Guest';
 
     if (!is_string($name)) {
-        http_response_code(400);
-
-        return;
+        return [
+            'statusCode' => 400,
+            'body' => '',
+            'headers' => [],
+        ];
     }
 
     $lang = detectLang($request, 'en');
 
-    http_response_code(200);
-    header('Content-Type: text/plain; charset=utf-8');
-    header('X-Frame-Options: DENY');
-    echo 'Hello, ' . $name . '! I am gussing your language is ' . $lang;
+    return [
+        'statusCode' => 200,
+            'body' => 'Hello, ' . $name . '! I am gussing your language is ' . $lang,
+            'headers' => [
+                'Content-Type' => 'text/plain; charset=utf-8',
+                'X-Frame-Options' => 'DENY',
+            ],
+    ];
 }
+
+### Grab request
 
 $request = createServerRequestFromGlobals();
 
-home($request);
+
+### Run
+
+$response = home($request);
+
+### Send
+
+http_response_code($response['statusCode']);
+
+foreach ($response['headers'] as $name => $value) {
+    header($name . ':' . $value);
+}
+
+echo $response['body'];
