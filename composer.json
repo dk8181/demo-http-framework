@@ -1,6 +1,6 @@
 {
     "name": "kda/demo-php-http-framework",
-    "description": "Source code for our workshop",
+    "description": "Source code for learn http php framework",
     "type": "project",
     "license": "BSD-3-Clause",
     "config": {
@@ -18,7 +18,8 @@
     "autoload": {
         "files": [
             "src/App/detectLang.php",
-            "src/Framework/Http/createServerRequestFromGlobals.php"
+            "src/Framework/Http/createServerRequestFromGlobals.php",
+            "src/Framework/Http/emitResponseToSapi.php"
         ],
         "psr-4": {
             "App\\": "src/App/",
