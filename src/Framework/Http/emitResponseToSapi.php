@@ -10,7 +10,7 @@ function emitResponseToSapi(Response $response): void
 {
     http_response_code($response->getStatusCode());
 
-    /** 
+    /**
      * @var string $name
      * @var string $value
      */
@@ -18,5 +18,11 @@ function emitResponseToSapi(Response $response): void
         header($name . ':' . $value);
     }
 
-    echo $response->getBody();
+    $body = $response->getBody();
+    $body->rewind();
+
+    do {
+        $content = $body->read(1024 * 8);
+        echo $content;
+    } while ($content !== '');
 }

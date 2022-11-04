@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Test\Framework\Http\Message;
 
 use Framework\Http\Message\Response;
+use Framework\Http\Message\Stream;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,7 +17,7 @@ final class ResponseTest extends TestCase
     {
         $response = new Response(
             $status = 200,
-            $body = 'Body',
+            $body = new Stream(fopen('php://memory', 'r+')),
             $headers = [
                 'X-Header-1' => 'Value-1',
                 'X-Header-2' => 'Value-2',
